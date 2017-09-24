@@ -2,3 +2,11 @@ body {
     color: white;
     background: black;
 }
+
+#gallery li {
+    display: inline;
+}
+
+#description {
+    color: yellow;
+}
