@@ -1,0 +1,12 @@
+body {
+    color: black;
+    background: white;
+}
+
+#gallery li {
+    display: inline;
+}
+
+#description {
+    color: yellow;
+}

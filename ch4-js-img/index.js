@@ -17,7 +17,13 @@
 
       prepareGallery();
 
+      var x = new Cell('hehe',1);
+      x.show();
+
+      Client.recvData();
+
 })();
+
 
 function showPic(pic) {
     if (!document.getElementById('place-holder')) return false;
