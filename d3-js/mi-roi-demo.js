@@ -1,4 +1,3 @@
-var rois=[];
 var roiVisibility = true;
 var cell;
 var curAction = ACTION_ID_NONE;
@@ -31,34 +30,33 @@ var curAction = ACTION_ID_NONE;
     if (roiVisBtn) {
         roiVisBtn.onclick = function() {
             roiVisibility = !roiVisibility;
-            rois[0].visble(roiVisibility);
+            cell.setROIVisbility(roiVisibility);
         }
     }
 
     var roiAddCircleBtn = document.getElementById('btn-roi-add-circle');
     if (roiAddCircleBtn) {
         roiAddCircleBtn.onclick = function() {
-            // if(curAction == ACTION_ID_NONE) {
-            //     curAction = ACTION_ID_ADD_ROI_CIRCLE;
-            // } else {
-            //     curAction = ACTION_ID_NONE;
-            // }
-            rois.push(new ROICircle(rois.length, svg, width/2, height/2, 50));
+            cell.addROIDebug();
         }
     }
 
-    var roiAddCircleBtn = document.getElementById('btn-roi-delete-circle');
-    if (roiAddCircleBtn) {
-        roiAddCircleBtn.onclick = function() {
-            // if(curAction == ACTION_ID_NONE) {
-            //     curAction = ACTION_ID_ADD_ROI_CIRCLE;
-            // } else {
-            //     curAction = ACTION_ID_NONE;
-            // }
-            if(rois.length > 0) {
-                rois[rois.length-1].release();
-                rois.pop();    
+    var roiDeleteCircleBtn = document.getElementById('btn-roi-delete-circle');
+    if (roiDeleteCircleBtn) {
+        roiDeleteCircleBtn.onclick = function() {
+            cell.removeROIRear();
+        }
+    }
+
+    var actionAddROIBtn = document.getElementById('btn-action-add-roi');
+    if (actionAddROIBtn) {
+        actionAddROIBtn.onclick = function() {
+            if(curAction == ACTION_ID_NONE) {
+                curAction = ACTION_ID_ADD_ROI_CIRCLE;
+            } else {
+                curAction = ACTION_ID_NONE;
             }
+            cell.mouseAction = curAction;
         }
     }
 

@@ -83,6 +83,24 @@ Cell.prototype.mouseUp = function(event) {
 
     // send a msg to notify BE we are done with adding an circle
     if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
-        
+        this.rois.push(this.lastROI);
+        this.lastROI = null;
+    }
+}
+
+Cell.prototype.removeROIRear = function() {
+    if(this.rois.length > 0) {
+        this.rois[this.rois.length-1].release();
+        this.rois.pop();    
+    }
+}
+
+Cell.prototype.addROIDebug = function() {
+    this.rois.push(new ROICircle(this.rois.length, this.svg, this.canvas.width/2, this.canvas.height/2, 50));
+}
+
+Cell.prototype.setROIVisbility = function(flag) {
+    for (var i = 0; i < this.rois.length; i++) {
+        this.rois[i].visible(flag);
     }
 }

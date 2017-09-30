@@ -159,7 +159,7 @@ ROICircle.prototype.stretch = function(r) {
     }
 }
 
-ROICircle.prototype.visble = function(flag) {
+ROICircle.prototype.visible = function(flag) {
     if( flag === true) {
         var vis = 'inline';
     } else {
