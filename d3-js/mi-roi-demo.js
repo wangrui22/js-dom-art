@@ -1,6 +1,7 @@
 var rois=[];
-var roi1;
 var roiVisibility = true;
+var cell;
+var curAction = ACTION_ID_NONE;
 
 (function() {
 
@@ -22,14 +23,42 @@ var roiVisibility = true;
     svg.setAttribute('x', left);
     svg.setAttribute('y', top);
 
+    cell = new Cell('roi-cell', 0, canvas, svg);
     
-    roi1 = new ROICircle(1, svg, width/2, height/2, 50);
+    //rois = [ new ROICircle(1, svg, width/2, height/2, 50) ];
 
     var roiVisBtn = document.getElementById('btn-roi-visibility');
     if (roiVisBtn) {
         roiVisBtn.onclick = function() {
             roiVisibility = !roiVisibility;
-            roi1.visble(roiVisibility);
+            rois[0].visble(roiVisibility);
+        }
+    }
+
+    var roiAddCircleBtn = document.getElementById('btn-roi-add-circle');
+    if (roiAddCircleBtn) {
+        roiAddCircleBtn.onclick = function() {
+            // if(curAction == ACTION_ID_NONE) {
+            //     curAction = ACTION_ID_ADD_ROI_CIRCLE;
+            // } else {
+            //     curAction = ACTION_ID_NONE;
+            // }
+            rois.push(new ROICircle(rois.length, svg, width/2, height/2, 50));
+        }
+    }
+
+    var roiAddCircleBtn = document.getElementById('btn-roi-delete-circle');
+    if (roiAddCircleBtn) {
+        roiAddCircleBtn.onclick = function() {
+            // if(curAction == ACTION_ID_NONE) {
+            //     curAction = ACTION_ID_ADD_ROI_CIRCLE;
+            // } else {
+            //     curAction = ACTION_ID_NONE;
+            // }
+            if(rois.length > 0) {
+                rois[rois.length-1].release();
+                rois.pop();    
+            }
         }
     }
 

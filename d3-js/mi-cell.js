@@ -8,11 +8,7 @@ const BTN_RIGHT = 2;
 const BTN_DOWN = 0;
 const BTN_UP = 1;
 
-//action
-const ACTION_ID_NBONE = 0
-const ACTION_ID_ADD_ROI_CIRCLE = 1;
-
-function Cell(cellName, cellID, canvas, svg, socketClient) {
+function Cell(cellName, cellID, canvas, svg) {
     this.cellName = cellName;
     this.cellID = cellID;
     
@@ -25,7 +21,10 @@ function Cell(cellName, cellID, canvas, svg, socketClient) {
     this.mouseBtn = BTN_NONE;
     this.mouseStatus = BTN_UP;
     this.mousePre = {x:0,y:0};
-    this.mouseClock = new Date().getTime();
+
+    //ROIs
+    this.rois = [];
+    this.lastROI = null;
 
     if(this.svg != null) {
         var mouseDown_ = (function(event) {
@@ -54,6 +53,10 @@ Cell.prototype.mouseDown = function(event) {
     var y = event.clientY - this.svg.getBoundingClientRect().top;
     this.mousePre.x = x;
     this.mousePre.y = y;
+
+    if(this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
+        this.lastROI = new ROICircle(this.rois.length, this.svg, x, y, 1);
+    }
 }
 
 Cell.prototype.mouseMove = function (event) {
@@ -64,8 +67,8 @@ Cell.prototype.mouseMove = function (event) {
     var curX = event.clientX - this.svg.getBoundingClientRect().left;
     var curY = event.clientY - this.svg.getBoundingClientRect().top;
     if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
-        
-    } 
+        this.lastROI.creating(curX, curY);
+    }
 
     //reset previous position
     this.mousePre.x = curX;
@@ -80,5 +83,6 @@ Cell.prototype.mouseUp = function(event) {
 
     // send a msg to notify BE we are done with adding an circle
     if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
+        
     }
 }
