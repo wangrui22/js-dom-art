@@ -1,13 +1,3 @@
-//mouse button type
-const BTN_NONE = -1;
-const BTN_LEFT = 0;
-const BTN_MIDDLE = 1;
-const BTN_RIGHT = 2;
-
-//mouse button status
-const BTN_DOWN = 0;
-const BTN_UP = 1;
-
 function Cell(cellName, cellID, canvas, svg) {
     this.cellName = cellName;
     this.cellID = cellID;
@@ -17,10 +7,9 @@ function Cell(cellName, cellID, canvas, svg) {
     this.svg = svg;
 
     //mouse event
-    this.mouseAction = ACTION_ID_NONE;
+    this.mouseAction = null;
     this.mouseBtn = BTN_NONE;
     this.mouseStatus = BTN_UP;
-    this.mousePre = {x:0,y:0};
 
     //ROIs
     this.rois = [];
@@ -51,12 +40,14 @@ Cell.prototype.mouseDown = function(event) {
 
     var x = event.clientX - this.svg.getBoundingClientRect().left;
     var y = event.clientY - this.svg.getBoundingClientRect().top;
-    this.mousePre.x = x;
-    this.mousePre.y = y;
 
-    if(this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
-        this.lastROI = new ROICircle(this.rois.length, this.svg, x, y, 1);
+    if(this.mouseAction) {
+        this.mouseAction.mouseDown(this.mouseBtn, this.mouseStatus, x, y, this);
     }
+
+    // if(this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
+    //     this.lastROI = new ROICircle(this.rois.length, this.svg, x, y, 1);
+    // }
 }
 
 Cell.prototype.mouseMove = function (event) {
@@ -64,27 +55,32 @@ Cell.prototype.mouseMove = function (event) {
         return;
     }
 
-    var curX = event.clientX - this.svg.getBoundingClientRect().left;
-    var curY = event.clientY - this.svg.getBoundingClientRect().top;
-    if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
-        this.lastROI.creating(curX, curY);
-    }
+    var x = event.clientX - this.svg.getBoundingClientRect().left;
+    var y = event.clientY - this.svg.getBoundingClientRect().top;
+    // if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
+    //     this.lastROI.creating(curX, curY);
+    // }
 
-    //reset previous position
-    this.mousePre.x = curX;
-    this.mousePre.y = curY;
+    if (this.mouseAction) {
+        this.mouseAction.mouseMove(this.mouseBtn, this.mouseStatus, x, y, this);
+    }
 }
 
 Cell.prototype.mouseUp = function(event) {
     this.mouseBtn = BTN_NONE;
     this.mouseStatus = BTN_UP;
-    this.mousePre.x = 0;
-    this.mousePre.y = 0;
 
     // send a msg to notify BE we are done with adding an circle
-    if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
-        this.rois.push(this.lastROI);
-        this.lastROI = null;
+    // if (this.mouseAction == ACTION_ID_ADD_ROI_CIRCLE) {
+    //     this.rois.push(this.lastROI);
+    //     this.lastROI = null;
+    // }
+
+    var x = event.clientX - this.svg.getBoundingClientRect().left;
+    var y = event.clientY - this.svg.getBoundingClientRect().top;
+
+    if(this.mouseAction) {
+        this.mouseAction.mouseUp(this.mouseBtn, this.mouseStatus, x, y, this);
     }
 }
 

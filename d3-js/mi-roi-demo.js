@@ -2,6 +2,7 @@ var roiVisibility = true;
 var cell;
 var curAction = ACTION_ID_NONE;
 
+
 (function() {
 
     var canvas = document.getElementById('cell-0');
@@ -51,12 +52,21 @@ var curAction = ACTION_ID_NONE;
     var actionAddROIBtn = document.getElementById('btn-action-add-roi');
     if (actionAddROIBtn) {
         actionAddROIBtn.onclick = function() {
-            if(curAction == ACTION_ID_NONE) {
+            if (curAction == ACTION_ID_NONE) {
                 curAction = ACTION_ID_ADD_ROI_CIRCLE;
             } else {
                 curAction = ACTION_ID_NONE;
             }
-            cell.mouseAction = curAction;
+            switch (curAction) {
+                case ACTION_ID_NONE:
+                    cell.mouseAction = null;
+                    break;
+                case ACTION_ID_ADD_ROI_CIRCLE:
+                    cell.mouseAction = new ActionAnnotation();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
