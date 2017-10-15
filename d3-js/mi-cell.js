@@ -31,6 +31,10 @@ function Cell(cellName, cellID, canvas, svg) {
         }).bind(this);
         this.svg.addEventListener('mouseup', mouseUp_);
     }
+
+    //crosshair
+    this.crosshair = new Crosshair(this.svg, $(this.svg).attr('width')/2, $(this.svg).attr('height')/2,
+     {a:2/$(this.svg).attr('width'), b:0}, {a:0, b:2/$(this.svg).attr('height')});
 }
 
 

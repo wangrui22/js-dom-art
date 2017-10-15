@@ -179,6 +179,7 @@ ROICircle.prototype.creating = function(x, y) {
     let cy = parseFloat(this.roiMain.attr('cy'));
     let r = Math.sqrt((x - cx)*(x - cx) + (y - cy)*(y - cy));
     this.stretch(Math.floor(r));
+    console.log(r);
 }
 
 ROICircle.prototype.release = function() {
