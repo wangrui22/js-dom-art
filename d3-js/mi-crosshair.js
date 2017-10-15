@@ -1,11 +1,4 @@
 
-const LINE_WIDTH = 2;
-const CROSS_WIDTH = 1;
-const LINE_COLOR = 'red';
-const CROSS_COLOR = 'blue';
-const CROSS_SIZE = 20;
-const CROSS_CTRL_SIZE = 7;
-
 function Crosshair(svg, cx, cy, line0Para, line1Para) {
     this.svg = svg;
     this.cx = cx;
@@ -33,50 +26,50 @@ function Crosshair(svg, cx, cy, line0Para, line1Para) {
     //init
     this.line00 = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', LINE_WIDTH)
-    .style('stroke', LINE_COLOR)
+    .style('stroke-width', this.lineWidth)
+    .style('stroke', this.line0Color)
     .style('stroke-opacity', 1.0)
 
     this.line01 = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', LINE_WIDTH)
-    .style('stroke', LINE_COLOR)
+    .style('stroke-width', this.lineWidth)
+    .style('stroke', this.line0Color)
     .style('stroke-opacity', 1.0)
 
     this.line10 = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', LINE_WIDTH)
-    .style('stroke', LINE_COLOR)
+    .style('stroke-width', this.lineWidth)
+    .style('stroke', this.line1Color)
     .style('stroke-opacity', 1.0)
 
     this.line11 = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', LINE_WIDTH)
-    .style('stroke', LINE_COLOR)
+    .style('stroke-width', this.lineWidth)
+    .style('stroke', this.line1Color)
     .style('stroke-opacity', 1.0)
 
     this.crossUp = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', CROSS_WIDTH)
-    .style('stroke', CROSS_COLOR)
+    .style('stroke-width', this.crossWidth)
+    .style('stroke', this.crossColor)
     .style('stroke-opacity', 1.0)
 
     this.crossDown = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', CROSS_WIDTH)
-    .style('stroke', CROSS_COLOR)
+    .style('stroke-width', this.crossWidth)
+    .style('stroke', this.crossColor)
     .style('stroke-opacity', 1.0)
 
     this.crossLeft = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', CROSS_WIDTH)
-    .style('stroke', CROSS_COLOR)
+    .style('stroke-width', this.crossWidth)
+    .style('stroke', this.crossColor)
     .style('stroke-opacity', 1.0)
 
     this.crossRight = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', CROSS_WIDTH)
-    .style('stroke', CROSS_COLOR)
+    .style('stroke-width', this.crossWidth)
+    .style('stroke', this.crossColor)
     .style('stroke-opacity', 1.0)
 
     this.crossCtrlOverlay = d3.select(this.svg)
@@ -186,6 +179,13 @@ function distance(p0, p1) {
     return Math.sqrt((p0.x - p1.x)*(p0.x - p1.x) + (p0.y - p1.y)*(p0.y - p1.y));
 }
 
+Crosshair.prototype.lineWidth = 1.5;
+Crosshair.prototype.line0Color ='red';
+Crosshair.prototype.line1Color = 'yellow';
+Crosshair.prototype.crossColor = 'blue';
+Crosshair.prototype.crossSize = 20;
+Crosshair.prototype.crossCtrlSize = 7;
+
 Crosshair.prototype.calLine = function(cx, cy, para) {
     var width = $(this.svg).attr('width');
     var height = $(this.svg).attr('height');
@@ -211,8 +211,8 @@ Crosshair.prototype.calLine = function(cx, cy, para) {
     var ab = Math.sqrt(para.a*para.a + para.b*para.b);
     var dx = para.b/ab;
     var dy = para.a/ab;
-    var p0 = {x:cx - CROSS_SIZE*dx, y:cy - CROSS_SIZE*dy};
-    var p1 = {x:cx + CROSS_SIZE*dx, y:cy + CROSS_SIZE*dy};
+    var p0 = {x:cx - this.crossSize*dx, y:cy - this.crossSize*dy};
+    var p1 = {x:cx + this.crossSize*dx, y:cy + this.crossSize*dy};
 
     if (distance(res[0], p0) <= distance(res[0], {x:this.cx, y:this.cy})) {
         return [res[0], p0, res[1], p1];
@@ -256,36 +256,36 @@ Crosshair.prototype.setLine = function(cx, cy, para0, para1) {
     this.crossLeft
     .attr('x1', this.cx)
     .attr('y1', this.cy)
-    .attr('x2', this.cx - CROSS_SIZE/2)
+    .attr('x2', this.cx - this.crossSize/2)
     .attr('y2', this.cy);
 
     this.crossRight
     .attr('x1', this.cx)
     .attr('y1', this.cy)
-    .attr('x2', this.cx + CROSS_SIZE/2)
+    .attr('x2', this.cx + this.crossSize/2)
     .attr('y2', this.cy);
 
     this.crossUp
     .attr('x1', this.cx)
     .attr('y1', this.cy)
     .attr('x2', this.cx)
-    .attr('y2', this.cy - CROSS_SIZE/2);
+    .attr('y2', this.cy - this.crossSize/2);
 
     this.crossDown
     .attr('x1', this.cx)
     .attr('y1', this.cy)
     .attr('x2', this.cx)
-    .attr('y2', this.cy + CROSS_SIZE/2);
+    .attr('y2', this.cy + this.crossSize/2);
 
     this.crossCtrlOverlay
-    .attr('x', cx - CROSS_SIZE/2)
-    .attr('y', cy - CROSS_SIZE/2)
-    .attr('width', CROSS_SIZE)
-    .attr('height', CROSS_SIZE);
+    .attr('x', cx - this.crossSize/2)
+    .attr('y', cy - this.crossSize/2)
+    .attr('width', this.crossSize)
+    .attr('height', this.crossSize);
 
     this.crossCtrl
-    .attr('x', cx - CROSS_CTRL_SIZE/2)
-    .attr('y', cy - CROSS_CTRL_SIZE/2)
-    .attr('width', CROSS_CTRL_SIZE)
-    .attr('height', CROSS_CTRL_SIZE);
+    .attr('x', cx - this.crossCtrlSize/2)
+    .attr('y', cy - this.crossCtrlSize/2)
+    .attr('width', this.crossCtrlSize)
+    .attr('height', this.crossCtrlSize);
 }
