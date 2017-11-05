@@ -1,15 +1,85 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <title>JS-DOM-ART</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-<h1>HELLO WORLD</h1>
-<br>
-<p id="board"></p>
-</body>
-</html>
-<script src="index.js"></script>
 
+<head>
+    <meta charset="utf-8" />
+    <title>JS-DOM-ART</title>
+    <script>
+        window.onload = function () {
+
+            // document.onclick=function(env) {
+            //     var oEvent = env || event;
+            //     alert(oEvent.clientX + ' ' + oEvent.clientY);
+            // }
+
+            document.onkeydown = function (env) {
+                var oEvent = env || event;
+                alert(oEvent.keyCode);
+            }
+            document.oncontextmenu = function (env) {
+                var oEvent = env || event;
+                var oDiv = document.getElementById('div1');
+                oDiv.style.display = 'block';
+                oDiv.style.left = oEvent.clientX + 'px';
+                oDiv.style.top = oEvent.clientY + 'px';
+                return false;
+            }
+            document.onclick = function () {
+                var oDiv = document.getElementById('div1');
+                oDiv.style.display = 'none';
+            }
+
+            var oDiv2 = document.getElementById('div2');
+            var disX, dixY;
+            var isDown = false;
+            oDiv2.onmousedown = function (env) {
+                isDown = true;
+                var oEvent = env || event;
+                disX = oEvent.clientX - oDiv2.offsetLeft;
+                disY = oEvent.clientY - oDiv2.offsetTop;
+
+                document.onmousemove = function (env) {
+                    if (!isDown) {
+                        return;
+                    }
+                    var oEvent = env || event;
+                    var l = oEvent.clientX - disX;
+                    var t = oEvent.clientY - disY;
+                    if (l < 0) {
+                        l = 0;
+                    }
+                    if (l > document.documentElement.clientWidth - oDiv2.offsetWidth) {
+                        l = document.documentElement.clientWidth - oDiv2.offsetWidth;
+                    }
+                    if (t < 0) {
+                        t = 0;
+                    }
+                    if (t > document.documentElement.clientHeight - oDiv2.offsetHeight) {
+                        t = document.documentElement.clientHeight - oDiv2.offsetHeight;
+                    }
+                    oDiv2.style.left = l + 'px';
+                    oDiv2.style.top =  t + 'px';
+                }
+                document.onmouseup = function (env) {
+                    isDown = false;
+                    oDiv2.onmousemove = null;
+                    oDiv2.onmouseup = null;
+                }
+
+                return false;
+            }
+        }
+    </script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>HELLO WORLD</h1>
+    <br>
+    <div id="div1" style="position:absolute;width:200px;height:200px;margin:0px;padding:0px;border:1px;background:red;display:none"></div>
+    <div id="div2" style="position:absolute;width:200px;height:200px;margin:0px;padding:0px;border:1px;background:yellow;"></div>
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>JS-DOM-ART</title>
+    <script>
+        window.onload = function () {
+            var oBtn1 = document.getElementById('btn1');
+            var oBtn2 = document.getElementById('btn2');
+            var oBtn3 = document.getElementById('btn3');
+            var oTxt1 = document.getElementById('txt1');
+            var oUl1 = document.getElementById('ul1');
+
+            oBtn1.onclick = function () {
+                var oLi = document.createElement('li');
+                var aLi = oUl1.getElementsByTagName('li');
+                oLi.innerHTML = oTxt1.value;
+                //oUl1.appendChild(oLi);
+                if (aLi.length == 0) {
+                    oUl1.appendChild(oLi);
+                } else {
+                    oUl1.insertBefore(oLi, aLi[0]);
+                }
+            }
+
+            oBtn2.onclick = function () {
+                var aLi = oUl1.getElementsByTagName('li');
+                //oUl1.appendChild(oLi);
+                if (aLi.length == 0) {
+
+                } else {
+                    oUl1.removeChild(aLi[0]);
+                }
+            }
+
+            oBtn3.onclick = function () {
+                var aLi = oUl1.getElementsByTagName('li');
+                var oFrag = document.createDocumentFragment();
+                for (var i = 0; i < 1000; ++i) {
+                    var oLi = document.createElement('li');
+                    oFrag.appendChild(oLi);
+                }
+                oUl1.appendChild(oFrag);
+            }
+
+
+            var oldColor = '';
+            var oTab = document.getElementById('tbl1');
+            for (var i = 0 ; i<oTab.tBodies[0].rows.length; ++i) {
+
+                // if (i%2) {
+                //     oTab.tBodies[0].rows[i].style.background = 'grey';
+                // }
+                oTab.tBodies[0].rows[i].onmouseover = function() {
+                    oldColor = this.style.background;
+                    this.style.background = 'yellow';
+                }
+                oTab.tBodies[0].rows[i].onmouseout = function() {
+                    this.style.background = oldColor;
+                }
+            }
+
+            var oBtn4 = document.getElementById('btn4');
+            var oBtn5 = document.getElementById('btn5');
+            oBtn4.onclick = function() {
+                var name = document.getElementById('txt2').value;
+                var age = document.getElementById('txt3').value;
+                var id = oTab.tBodies[0].rows.length+1;
+                var row = oTab.insertRow(id);
+                row.insertCell(0).innerHTML = id;
+                row.insertCell(1).innerHTML = name;
+                row.insertCell(2).innerHTML = age;
+            }
+
+            var oBtn6 = document.getElementById('btn6');
+            oBtn6.onclick = function() {
+                var name = document.getElementById('txt4').value.toLowerCase();
+                for(var i = 0; i< oTab.tBodies[0].rows.length;++i) {
+                    if (oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase().search(name) != -1) {
+                        oTab.tBodies[0].rows[i].style.background = 'red';
+                    } else {
+                        oTab.tBodies[0].rows[i].style.background = '';
+                    }
+                }
+            }
+
+            var oBtn7 = document.getElementById('btn7');
+            oBtn7.onclick = function() { 
+                var arr = [];
+                for (var i = 0 ; i < oTab.tBodies[0].rows.length; ++i) {
+                    arr.push(oTab.tBodies[0].rows[i]);
+                }
+                arr.sort(function(row0, row1) {
+                    return parseFloat(row0.cells[2].innerHTML) - parseFloat(row1.cells[2].innerHTML);
+                });
+
+                for(var i=0;i<arr.length; ++i) {
+                    oTab.tBodies[0].appendChild(arr[i]);
+                }
+            }
+        }
+    </script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>HELLO WORLD</h1>
+    <br>
+    <p id="board"></p>
+    <input id="txt1" type="text" />
+    <input id="btn1" type="button" value="create" />
+    <input id="btn2" type="button" value="delete" />
+    <input id="btn3" type="button" value="batch" />
+    <ul id="ul1">
+    
+    </ul>
+    <input id="txt2" type="text"/> name
+    <input id="txt3" type="text"/> age
+    <input id="btn4" type="button" value="add"/>
+    <input id="btn5" type="button" value="delete"/>
+    <input id="btn7" type="button" value="sort"/><br>
+    <input id="txt4" type="text"/> 
+    <input id="btn6" type="button" value="search"/>
+    <table id="tbl1" border="1" width="500">
+        <thead>
+            <td>ID</td>
+            <td>name</td>
+            <td>age</td>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Tom</td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Jom</td>
+                <td>45</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Vell</td>
+                <td>29</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>JomJJ</td>
+                <td>19</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="http://www.baidu.com">
+        name: <input type="text" name="user"/><br>
+        password: <input type="password" name="pwd"/><br>
+        <input type="submit"/>
+    </form>
+</body>
+
+</html>
