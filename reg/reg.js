@@ -1,9 +1,3 @@
-let reg=/\d+/g;
-let str='adsf 23 45 dsadn8990';
-console.log(str.match(reg));
-console.log(str.replace(reg, 'a'));
-console.log(str.match(/[2-5]/g));
-
 //书写 
 // perl风格 \\ 常用
 // JS 风格 new RegExp 少用
@@ -47,6 +41,14 @@ console.log(str.match(/[2-5]/g));
 
 
 //实例
+
+//字符串操作
+let reg=/\d+/g;
+let str='adsf 23 45 dsadn8990';
+console.log(str.match(reg));
+console.log(str.replace(reg, 'a'));
+console.log(str.match(/[2-5]/g));
+
 // 邮箱校验
 // 英文数字下划线@数字英文.英文 /[1-9a-zA-Z_]@[1-9a-zA-Z].[a-zA-Z]/d
 let regEmail = /^\w+@[1-9a-zA-Z]+\.[a-z]+$/i;
