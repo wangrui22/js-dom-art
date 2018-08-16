@@ -7,7 +7,7 @@ var curAction = ACTION_ID_NONE;
 
     var canvas = document.getElementById('cell-0');
     var cxt = canvas.getContext('2d');
-    cxt.fillStyle='#000000';
+    cxt.fillStyle='#00ffff';
     cxt.fillRect(0,0,canvas.width,canvas.height);
 
     var svg = document.getElementById('svg-0');

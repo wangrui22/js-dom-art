@@ -32,12 +32,94 @@ function Crosshair(svg, cx, cy, line0Para, line1Para) {
     // this.line00Move;
     // this.line00Rotate;
 
+    //----------------------------------------------------//
+    //加阴影(drop shadow)
+    //----------------------------------------------------//
+    var defs = d3.select(this.svg).append("defs");
+
+    //----------------------------------------------------//    
+    //代码来自 http://bl.ocks.org/cpbotha/5200394
+
+    // create filter with id #drop-shadow
+    // height=130% so that the shadow is not clipped
+    var filter = defs.append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "130%")
+        .attr('filterUnits','userSpaceOnUse');//!!!!!!!这一句一定要加，否则不能应用到line上！！！！！！原例子没有
+    // SourceAlpha refers to opacity of graphic that this filter will be applied to
+    // convolve that with a Gaussian with standard deviation 3 and store result
+    // in blur
+    filter.append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", 5)
+        .attr("result", "blur");
+    // translate output of Gaussian blur to the right and downwards with 2px
+    // store result in offsetBlur
+    filter.append("feOffset")
+        .attr("in", "blur")
+        .attr("dx", 5)
+        .attr("dy", 5)
+        .attr("result", "offsetBlur");
+
+    // overlay original SourceGraphic over translated blurred opacity by using
+    // feMerge filter. Order of specifying inputs is important!
+    var feMerge = filter.append("feMerge");
+
+    feMerge.append("feMergeNode")
+        .attr("in", "offsetBlur")
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
+    //----------------------------------------------------//
+
+
+
+    //----------------------------------------------------//    
+    // 代码来自 http://bl.ocks.org/dimitardanailov/240cc0689604e22570e8ce22aa8a7e7e
+
+    //     var filter = defs.append('filter')
+    //         .attr('id', "drop-shadow")
+    //         // x, y, width and height represent values in the current coordinate system that results
+    //         // from taking the current user coordinate system in place at the time when the
+    //         // <filter> element is referenced
+    //         // (i.e., the user coordinate system for the element referencing the <filter> element via a filter attribute).
+    //         .attr('filterUnits','userSpaceOnUse');
+
+    // filter.append('feGaussianBlur')
+    //     .attr('in', 'SourceAlpha')
+    //     .attr('stdDeviation', 2);
+
+    // filter.append('feOffset')
+    //     .attr('dx', 1)
+    //     .attr('dy', 1);
+
+    // filter.append('feComponentTransfer')
+    //     .append('feFuncA')
+    //     .attr('type', 'gamma')
+    //     .attr('slope', 0.5);
+
+    // var feMerge = filter.append('feMerge');
+    // feMerge.append('feMergeNode');
+    // feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+    //----------------------------------------------------//    
+    
     //init
+    d3.select(this.svg).append("rect")
+    .attr('x',50)
+    .attr('y',200)
+    .attr("width", 170)
+    .attr("height", 100)
+    .attr('fill','none')
+    .attr('stroke', 'white')
+    .attr("stroke-width", 2)
+    .style("filter", "url(#drop-shadow)")
+
     this.line00 = d3.select(this.svg)
     .append('line')
-    .style('stroke-width', this.lineWidth)
+    .style('stroke-width', 5)
     .style('stroke', this.line0Color)
-    .style('stroke-opacity', 1.0);
+    .style('stroke-opacity', 1.0)
+    .attr("stroke-width", 2)
+    .style("filter", "url(#drop-shadow)")
 
     this.line01 = d3.select(this.svg)
     .append('line')
