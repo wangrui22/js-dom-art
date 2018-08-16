@@ -5,14 +5,20 @@
     <title>D3-JS-DEMO</title>    
     <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
-    <!-- <style>
-        svg 
+    <style>
+        /* svg 
         {
             position: absolute;
             top: 3px;
             left: 3px;
+        } */
+        
+        text.shadow {
+            stroke: silver;
+            stroke-width: 1px;
+            opacity: 0.2;
         }
-    </style> -->
+    </style>
 </head>
 <body>
 <h>CIRCLEROI</h><br><br>
@@ -21,6 +27,12 @@
 <button type="button" id="btn-roi-delete-circle">DELETE-ROI-CIRCLE</button><br>
 <button type="button" id="btn-roi-visibility">ROI-VISIBILITY</button><br>
 <button type="button" id="btn-action-add-roi">ACTION-ADD-ROI</button><br>
+<br>
+Text info: <input type="text" id="input-text-info"> <br>
+Text X: <input type="text" id="input-text-x"> <br>
+Text Y: <input type="text" id="input-text-y"> <br>
+<button type="button" id="btn-action-add-text">ACTION-TEXT</button><br>
+
 <div style="padding: 0; margin: 0; position: relative;">
         <canvas width="1000" height="1000" id="cell-0" style="border:3px solid red"></canvas>
         <svg width="1000" height="1000" id="svg-0" style="position:absolute;top:3px;left:3px"></svg>
@@ -31,6 +43,7 @@
 <script src="mi-roi.js"></script>
 <script src="mi-crosshair.js"></script>
 <script src="mi-cell.js"></script>
+<script src="mi-font.js"></script>
 <script src="mi-roi-demo.js"></script>
 </html>
 

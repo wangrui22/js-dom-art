@@ -70,6 +70,18 @@ var curAction = ACTION_ID_NONE;
         }
     }
 
+    let fonts = [];
+
+    $('#input-text-info').val('Hello D3');
+    $('#input-text-x').val('100');
+    $('#input-text-y').val('100');
+    $('#btn-action-add-text').click(function() {
+        let info = $('#input-text-info').val();
+        let x = $('#input-text-x').val();
+        let y = $('#input-text-y').val();
+        fonts.push(new Font(svg, info, parseInt(x), parseInt(y)));
+    })
+
     document.addEventListener('contextmenu', function(event) {
         event.preventDefault()});    
 })();
